@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <!-- Google Fonts Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Beautiful UI Theme Stylesheet -->
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+      (function(){try{var t=localStorage.getItem("bui-theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})();
+    </script>
+</head>
+<body>
+    <main class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand-wrapper">
+                <div class="brand-icon" aria-hidden="true">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <div class="title-area">
+                    <h1><%= title %></h1>
+                    <div class="title-badge">
+                        <span class="badge-pulse"></span>
+                        <span>Live Feed</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Theme Switcher -->
+            <div class="theme-switch" role="group" aria-label="Theme mode toggle">
+                <button type="button" id="theme-light-btn" aria-label="Light mode">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+                <button type="button" id="theme-dark-btn" aria-label="Dark mode">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Message List -->
+        <section class="feed-section" aria-label="Messages">
+            <div class="feed-header-info">
+                <span class="feed-label">Messages</span>
+                <span class="feed-count"><%= messages.length %> <%= messages.length === 1 ? 'post' : 'posts' %></span>
+            </div>
+            <ul class="message-list">
+                <% messages.forEach((message) => { %>
+                    <li class="message-card">
+                        <div class="message-meta">
+                            <div class="message-author">
+                                <span class="author-avatar" aria-hidden="true">
+                                    <%= (message.user && message.user.trim().length > 0) ? message.user.trim()[0].toUpperCase() : '?' %>
+                                </span>
+                                <h4 class="author-name"><%= message.user %></h4>
+                            </div>
+                            <% const date = message.added 
+                             const day = date.getDate() 
+                             const mon = date.toLocaleString('default', { month: 'short' }) 
+                             const yr = date.getFullYear() 
+                             const time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}` %>
+                            <p class="message-timestamp"><%= `Posted: ${day}/${mon}/${yr}, ${time}` %></p>
+                        </div>
+                        <p class="message-content"><%= message.text %></p>
+                    </li>
+                <% }); %>
+            </ul>
+        </section>
+
+        <!-- New Message Form -->
+        <section class="composer-wrapper" aria-label="Post message">
+            <div class="composer-title">
+                <strong>New Message</strong>
+                <span>Share something with the board</span>
+            </div>
+            <form action="/new" method="post" class="composer-form">
+                <div class="input-group">
+                    <label for="user" class="input-label">Your Name</label>
+                    <input type="text" name="user" id="user" class="input-field" placeholder="e.g. Amando" required autocomplete="name">
+                </div>
+                <div class="input-group">
+                    <label for="message" class="input-label">Message</label>
+                    <input type="text" name="message" id="message" class="input-field" placeholder="What's happening?" required autocomplete="off">
+                </div>
+                <div class="composer-actions">
+                    <button type="submit" class="btn-primary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        <span>Send Message</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <span>Crafted with <a href="https://www.beautifului.dev/" target="_blank" rel="noopener noreferrer">Beautiful UI</a> primitives</span>
+        </footer>
+    </main>
+
+    <script src="/js/theme.js"></script>
+</body>
+</html>
