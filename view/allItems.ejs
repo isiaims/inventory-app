@@ -9,22 +9,24 @@
         <h3><%= title.toUpperCase() %></h3>
         <div class="category-items">
             <% items.forEach(function(item) { %>
-                <div class="all-items">
-                    <a href="/items/<%= item.category_id %>/<%= item.item_id %>">
-                        <img src="<%= item.item_image %>" alt="<%= item.item_name %>">
-                        <div class="item-info">
-                            <h3><%= item.item_name %></h3>
-                            <h4>Price: $<%= item.price %></h4>
-                            <p>In Stock: <%= item.stock %></p>
-                            <p>Rating: <%= item.rating %></p>
-                            <p>Description: <%= item.description %></p>
-                        </div>
-                    </a>
-                </div>
-                <div class="action">
-                    <button type="button" class="delete-item">Delete Item</button>
-                    <%- include('popup/confirm', {item}) %>
-                    <button><a href="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item">Edit Item</a></button>
+                <div class="inventory-card">
+                    <div class="all-items">
+                        <a href="/items/<%= item.category_id %>/<%= item.item_id %>">
+                            <img src="<%= item.item_image %>" alt="<%= item.item_name %>">
+                            <div class="item-info">
+                                <h3><%= item.item_name %></h3>
+                                <h4>Price: $<%= item.price %></h4>
+                                <p>In Stock: <%= item.stock %></p>
+                                <p>Rating: <%= item.rating %></p>
+                                <p>Description: <%= item.description %></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="action">
+                        <button type="button" class="delete-item button-danger">Delete Item</button>
+                        <a class="button-link" href="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item">Edit Item</a>
+                        <%- include('popup/confirm', {item}) %>
+                    </div>
                 </div>
             <% }); %>
         </div>

@@ -1,9 +1,961 @@
-.confirm-delete,
-.confirm-update {
+/* ==========================================================================
+   beUI Design System (https://beui.dev)
+   Theme tokens, spring physics, glassmorphic surfaces, and motion primitives.
+   ========================================================================== */
+
+:root {
+  color-scheme: light dark;
+  font-family: Geist, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* beUI Light Theme Tokens */
+  --background: #fcfcfc;
+  --foreground: #0b0b0b;
+  --card: #ffffff;
+  --card-foreground: #0b0b0b;
+  --card-hover: #f7f7f8;
+  --muted: #f4f4f5;
+  --muted-surface: #fafafa;
+  --muted-foreground: #636363;
+  --border: rgba(11, 11, 11, 0.08);
+  --border-strong: rgba(11, 11, 11, 0.16);
+  --accent: #00bebf;
+  --accent-fg: #0b0b0b;
+  --violet: #a37aff;
+  --neon: #45e059;
+  --danger: #ee343b;
+  --danger-bg: rgba(238, 52, 59, 0.08);
+  --danger-border: rgba(238, 52, 59, 0.22);
+  --success: #00bd6c;
+  --warning: #f5a500;
+  --glass-bg: rgba(252, 252, 252, 0.82);
+  --glass-border: rgba(11, 11, 11, 0.08);
+  --gradient-bg: radial-gradient(circle at 50% -10%, rgba(0, 190, 191, 0.05) 0%, transparent 60%), #fcfcfc;
+  --gradient-accent: linear-gradient(135deg, #00bebf 0%, #a37aff 100%);
+  --primary: #0b0b0b;
+  --primary-foreground: #ffffff;
+  --input-bg: #ffffff;
+  --input-border: rgba(11, 11, 11, 0.12);
+  --img-bg: #f5f5f7;
+  --ring: rgba(0, 190, 191, 0.28);
+
+  /* Shadows & Depth */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 24px 50px -12px rgba(0, 0, 0, 0.12), 0 8px 18px -4px rgba(0, 0, 0, 0.04);
+  --inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* beUI Official Motion Curves */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --spring-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* beUI Dark Theme Tokens */
+    --background: #151515;
+    --foreground: #f2f2f2;
+    --card: #1c1c1c;
+    --card-foreground: #f2f2f2;
+    --card-hover: #232323;
+    --muted: #242424;
+    --muted-surface: #181818;
+    --muted-foreground: #8e8e93;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.18);
+    --accent: #00dadb;
+    --accent-fg: #151515;
+    --violet: #ad8cff;
+    --danger: #ff453a;
+    --danger-bg: rgba(255, 69, 58, 0.12);
+    --danger-border: rgba(255, 69, 58, 0.28);
+    --success: #32d74b;
+    --warning: #ffd60a;
+    --glass-bg: rgba(21, 21, 21, 0.82);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --gradient-bg: radial-gradient(circle at 50% -10%, rgba(0, 218, 219, 0.07) 0%, transparent 60%), #151515;
+    --gradient-accent: linear-gradient(135deg, #00dadb 0%, #ad8cff 100%);
+    --primary: #f2f2f2;
+    --primary-foreground: #151515;
+    --input-bg: #18181a;
+    --input-border: rgba(255, 255, 255, 0.12);
+    --img-bg: #202022;
+    --ring: rgba(0, 218, 219, 0.32);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 6px 22px -4px rgba(0, 0, 0, 0.5), 0 2px 6px -1px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 28px 60px -12px rgba(0, 0, 0, 0.7);
+    --inner-glow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  color: var(--foreground);
+  background: var(--gradient-bg);
+}
+
+/* ==========================================================================
+   Navigation Bar (beUI Sticky Glassmorphism)
+   ========================================================================== */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: 0.85rem max(1.5rem, calc((100% - 1160px) / 2));
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  transition: border-color 200ms var(--ease-out);
+}
+
+header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--foreground);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+header h3::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* beUI Pill Navigation Links */
+nav a,
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color 160ms var(--ease-out),
+    background 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    transform 160ms var(--ease-out);
+}
+
+nav a:hover,
+.button-link:hover {
+  color: var(--foreground);
+  background: var(--muted);
+  border-color: var(--border);
+  transform: translateY(-1px);
+}
+
+nav a:active,
+.button-link:active {
+  transform: scale(0.96);
+}
+
+/* ==========================================================================
+   Main Content Layout
+   ========================================================================== */
+
+main {
+  width: min(1160px, calc(100% - 3rem));
+  margin: 2.5rem auto 4.5rem;
+  flex: 1;
+}
+
+main > h3 {
+  margin: 0 0 2rem;
+  font-size: clamp(1.65rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--foreground);
+  line-height: 1.2;
+}
+
+/* beUI Expressive Call-To-Action (See All Items) */
+.hero-cta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0.5rem 0 2.75rem;
+}
+
+.hero-cta a,
+main > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0 auto 2.5rem;
+  padding: 0.75rem 1.65rem;
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  background: var(--card);
+  color: var(--foreground);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  box-shadow: var(--shadow-sm), var(--inner-glow);
+  text-decoration: none;
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    border-color 200ms var(--ease-out),
+    color 200ms var(--ease-out);
+}
+
+.hero-cta a::after,
+main > a::after {
+  content: "→";
+  display: inline-block;
+  font-size: 1.05rem;
+  transition: transform 200ms var(--ease-out);
+}
+
+.hero-cta a:hover,
+main > a:hover {
+  border-color: var(--border-strong);
+  color: var(--accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.hero-cta a:hover::after,
+main > a:hover::after {
+  transform: translateX(4px);
+}
+
+.hero-cta a:active,
+main > a:active {
+  transform: scale(0.97);
+}
+
+/* ==========================================================================
+   Category Cards (Homepage Grid)
+   ========================================================================== */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+main:has(> div[data-id]) {
+  display: block;
+}
+
+.category-grid > div[data-id],
+main > div[data-id] {
+  display: flex;
+  width: 100%;
+  min-height: 14rem;
+  margin: 0;
+  vertical-align: top;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.125rem;
+  background: var(--card);
+  box-shadow: var(--shadow-sm), var(--inner-glow);
+  cursor: pointer;
+  transition:
+    transform 220ms var(--ease-out),
+    border-color 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out);
+}
+
+.category-grid > div[data-id]:hover,
+main > div[data-id]:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.category-grid > div[data-id]:active,
+main > div[data-id]:active {
+  transform: scale(0.98);
+}
+
+.category-grid > div[data-id] a,
+main > div[data-id] a {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  color: var(--foreground);
+}
+
+.category-grid > div[data-id] img,
+main > div[data-id] img {
+  width: 100%;
+  height: 11rem;
+  object-fit: contain;
+  padding: 1.5rem;
+  background: var(--img-bg);
+  border-bottom: 1px solid var(--border);
+  transition: transform 350ms var(--ease-out);
+}
+
+.category-grid > div[data-id]:hover img,
+main > div[data-id]:hover img {
+  transform: scale(1.05);
+}
+
+.category-grid > div[data-id] h4,
+main > div[data-id] h4 {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+main > div[data-id] h4::after {
+  content: "↗";
+  font-size: 0.95rem;
+  color: var(--muted-foreground);
+  transition: transform 200ms var(--ease-out), color 200ms var(--ease-out);
+}
+
+main > div[data-id]:hover h4::after {
+  color: var(--accent);
+  transform: translate(2px, -2px);
+}
+
+/* ==========================================================================
+   Inventory Card & Grid (beUI Composable Card Pattern)
+   ========================================================================== */
+
+.category-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  align-items: stretch;
+  gap: 1.5rem;
+}
+
+.inventory-card {
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.125rem;
+  background: var(--card);
+  box-shadow: var(--shadow-sm), var(--inner-glow);
+  transition:
+    transform 220ms var(--ease-out),
+    border-color 220ms var(--ease-out),
+    box-shadow 220ms var(--ease-out);
+}
+
+.inventory-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+.inventory-card > a,
+.all-items > a {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+}
+
+.all-items {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.inventory-card img,
+.all-items img {
+  display: block;
+  width: 100%;
+  height: 13.5rem;
+  object-fit: contain;
+  padding: 1.5rem;
+  background: var(--img-bg);
+  border-bottom: 1px solid var(--border);
+  transition: transform 350ms var(--ease-out);
+}
+
+.inventory-card:hover img {
+  transform: scale(1.04);
+}
+
+.item-info {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.item-info h3 {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.38;
+  color: var(--foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 180ms ease;
+}
+
+.inventory-card:hover .item-info h3 {
+  color: var(--accent);
+}
+
+.item-info h4 {
+  margin: 0.15rem 0 0.35rem;
+  color: var(--foreground);
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  font-feature-settings: "tnum" 1;
+}
+
+/* beUI Badge Elements: In Stock & Rating */
+.item-info p {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.item-info p:nth-of-type(1) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(0, 189, 108, 0.1);
+  color: var(--success);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.2rem;
+}
+
+.item-info p:nth-of-type(1)::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px var(--success);
+}
+
+.item-info p:nth-of-type(2) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  background: var(--muted);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35rem;
+}
+
+.item-info p:nth-of-type(2)::before {
+  content: "★";
+  color: var(--warning);
+  font-size: 0.85rem;
+}
+
+.item-info p:nth-of-type(3) {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 0.83rem;
+  color: var(--muted-foreground);
+  line-height: 1.48;
+  margin-top: 0.2rem;
+}
+
+/* ==========================================================================
+   Buttons & Interactive Action Bar
+   ========================================================================= */
+
+.action,
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.25rem;
+  border-top: 1px solid var(--border);
+  background: var(--muted-surface);
+}
+
+button,
+.button-link {
+  min-height: 2.25rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform 160ms var(--ease-out),
+    background 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    color 160ms var(--ease-out),
+    box-shadow 160ms var(--ease-out);
+}
+
+/* Primary Button (beUI High-Contrast / Spring Press) */
+button {
+  color: var(--primary-foreground);
+  background: var(--primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* Danger Button (beUI Destructive Variant) */
+.button-danger {
+  color: var(--danger);
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  box-shadow: none;
+}
+
+.button-danger:hover {
+  color: #ffffff;
+  border-color: var(--danger);
+  background: var(--danger);
+}
+
+.button-danger:active {
+  transform: scale(0.96);
+}
+
+/* Secondary Button (beUI Outline/Ghost Variant) */
+.button-secondary {
+  border-color: var(--border);
+  color: var(--foreground);
+  background: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+.button-secondary:hover {
+  color: var(--foreground);
+  background: var(--muted);
+  border-color: var(--border-strong);
+}
+
+.button-secondary:active {
+  transform: scale(0.96);
+}
+
+/* Focus States */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Product Detail View (Single Item Page)
+   ========================================================================== */
+
+.product {
+  max-width: 960px;
+  margin: 1.5rem auto 3rem;
+}
+
+.product > div {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(340px, 1.25fr);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card);
+  box-shadow: var(--shadow-md), var(--inner-glow);
+}
+
+.product img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 22rem;
+  max-height: 32rem;
+  object-fit: contain;
+  padding: 2.5rem;
+  background: var(--img-bg);
+  border-right: 1px solid var(--border);
+}
+
+.product .item-info {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.product .item-info h3 {
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+  color: var(--foreground);
+  display: block;
+  -webkit-line-clamp: unset;
+}
+
+.product .item-info h4 {
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: var(--foreground);
+  font-feature-settings: "tnum" 1;
+  margin: 0.35rem 0;
+}
+
+.product .item-info p:nth-of-type(3) {
+  display: block;
+  -webkit-line-clamp: unset;
+  font-size: 0.94rem;
+  color: var(--muted-foreground);
+  line-height: 1.65;
+  margin-top: 0.5rem;
+}
+
+.product .action {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.85rem;
+  padding: 1.25rem 2.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--card);
+}
+
+/* ==========================================================================
+   Forms (Add & Edit Item)
+   ========================================================================== */
+
+main > form {
+  display: grid;
+  gap: 1.35rem;
+  max-width: 620px;
+  margin: 1.5rem auto 3.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  background: var(--card);
+  box-shadow: var(--shadow-md), var(--inner-glow);
+}
+
+main > form > div {
+  display: grid;
+  gap: 0.45rem;
+}
+
+label {
+  color: var(--foreground);
+  font-size: 0.86rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.95rem;
+  border: 1px solid var(--input-border);
+  border-radius: 0.75rem;
+  color: var(--foreground);
+  background: var(--input-bg);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition:
+    border-color 160ms var(--ease-out),
+    box-shadow 160ms var(--ease-out),
+    background-color 160ms ease;
+}
+
+textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+select {
+  cursor: pointer;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--ring);
+}
+
+main > form p {
+  min-height: 0;
+  margin: 0.2rem 0 0;
+  color: var(--danger);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+main > form p:empty {
   display: none;
 }
 
-.confirm-delete.open,
-.confirm-update.open {
-  display: block;
+main > form > button {
+  justify-self: start;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.75rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   Modals & Confirmation Dialogs (beUI Dialog Surface)
+   ========================================================================== */
+
+dialog {
+  width: min(440px, calc(100% - 2rem));
+  max-width: none;
+  padding: 2rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 1.25rem;
+  color: var(--foreground);
+  background: var(--card);
+  box-shadow: var(--shadow-lg), var(--inner-glow);
+}
+
+dialog[open] {
+  animation: dialog-enter 220ms var(--ease-out) both;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: backdrop-enter 200ms var(--ease-out) both;
+}
+
+dialog form {
+  display: grid;
+  gap: 0.85rem;
+}
+
+dialog .eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+dialog h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--foreground);
+}
+
+.dialog-copy {
+  margin: 0 0 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+dialog input {
+  margin-bottom: 0.5rem;
+}
+
+.password-error {
+  margin: -0.5rem 0 0;
+  color: var(--danger);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.password-error:empty {
+  display: none;
+}
+
+dialog .dialog-actions {
+  justify-content: flex-end;
+  padding: 0.75rem 0 0;
+  background: transparent;
+  border-top: none;
+}
+
+/* ==========================================================================
+   Keyframes & Motion Physics
+   ========================================================================== */
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes backdrop-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================================
+   Responsive Adaptations
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    padding: 0.85rem 1.25rem;
+  }
+
+  header h3 {
+    font-size: 1rem;
+  }
+
+  nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  nav a {
+    padding-inline: 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  main {
+    width: min(calc(100% - 2rem), 640px);
+    margin: 2rem auto 3.5rem;
+  }
+
+  .product > div {
+    grid-template-columns: 1fr;
+  }
+
+  .product img {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    max-height: 22rem;
+  }
+
+  .product .action {
+    grid-column: auto;
+    padding: 1.25rem;
+  }
+
+  .product .item-info {
+    padding: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

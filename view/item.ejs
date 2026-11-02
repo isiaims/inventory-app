@@ -17,6 +17,11 @@
                     <p>Rating: <%= item.rating %></p>
                     <p>Description: <%= item.description %></p>
                 </div>
+                <div class="action">
+                    <button type="button" class="delete-item button-danger">Delete Item</button>
+                    <%- include('popup/confirm', {item}) %>
+                    <a class="button-link" href="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item">Edit Item</a>
+                </div>
             </div>
         </div>
         

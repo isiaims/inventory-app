@@ -1,11 +1,14 @@
-<form action="/items/<%= item.item_id %>/delete" method="post" class="confirm-delete">
-    <h4 class="message">
-        Enter the admin password to delete.
-        This action is not reversible.
-    </h4>
-    <input type="text" class="password" name="password" id="password" required>
-    <div>
-        <button class='accept' type="submit">Delete</button>
-        <button class="reject" type="button">Cancel</button>
-    </div>
-</form>
+<dialog class="confirm-delete" aria-labelledby="delete-confirmation-title">
+    <form action="/items/<%= item.item_id %>/delete" method="post" data-auth-form>
+        <p class="eyebrow">Admin confirmation</p>
+        <h2 id="delete-confirmation-title">Delete this item?</h2>
+        <p class="dialog-copy">Enter your admin password to continue. This action cannot be undone.</p>
+        <label for="delete-password-<%= item.item_id %>">Admin password</label>
+        <input type="password" class="password" name="password" id="delete-password-<%= item.item_id %>" autocomplete="current-password" aria-describedby="delete-password-error-<%= item.item_id %>" required>
+        <p class="password-error" id="delete-password-error-<%= item.item_id %>" aria-live="polite"></p>
+        <div class="dialog-actions">
+            <button class="reject button-secondary" type="button">Cancel</button>
+            <button class="accept button-danger" type="submit">Delete item</button>
+        </div>
+    </form>
+</dialog>

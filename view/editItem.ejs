@@ -1,10 +1,13 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <%- include('partials/header', { title }) %>
 <body>
-    <%- include('partials/nav') %>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
     <main>
         <h3><%= title %></h3>
-        <form id="edit-item-form" action="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item" method="post">
+        <form id="edit-item-form" action="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item" method="post" data-auth-form>
             <div>
                 <label for="item_name">Item Name: </label>
                 <input type="text" name="item_name" id="item_name" value='<%= item.item_name %>' required >
@@ -43,23 +46,27 @@
             </div>
             <button type="button" class="save-edit">Save Changes</button>
         </form>
-        <div class="confirm-update" role="dialog" aria-labelledby="confirm-update-message">
-            <h4 id="confirm-update-message">Save these changes?</h4>
-            <label for="update-password">Admin password:</label>
+        <dialog class="confirm-update" aria-labelledby="confirm-update-message">
+            <p class="eyebrow">Admin confirmation</p>
+            <h2 id="confirm-update-message">Save these changes?</h2>
+            <p class="dialog-copy">Enter your admin password to confirm this update.</p>
+            <label for="update-password">Admin password</label>
             <input
                 type="password"
                 id="update-password"
                 name="password"
                 form="edit-item-form"
                 autocomplete="current-password"
+                aria-describedby="update-password-error"
                 disabled
                 required
             >
-            <div>
-                <button type="submit" form="edit-item-form">Confirm</button>
-                <button type="button" class="cancel-update">Cancel</button>
+            <p class="password-error" id="update-password-error" aria-live="polite"></p>
+            <div class="dialog-actions">
+                <button type="button" class="cancel-update button-secondary">Cancel</button>
+                <button type="submit" form="edit-item-form">Confirm changes</button>
             </div>
-        </div>
+        </dialog>
     </main>
 </body>
 </html>
