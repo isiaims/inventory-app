@@ -3,6 +3,8 @@ const { PORT } = process.env;
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import indexRouter from "./routes/indexRoutes.js";
+import categoryRouter from "./routes/categoryRoutes.js";
+import itemRouter from "./routes/itemRoutes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const assetsPath = path.join(__dirname, "public");
@@ -16,6 +18,8 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
+app.use("/category", categoryRouter);
+app.use("/items", itemRouter);
 
 app.listen(PORT, (error) => {
   if (error) throw error;

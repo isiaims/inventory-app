@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header', { title: title.toUpperCase() }) %>
+<body>
+    <header>
+        <h3><%= title.toUpperCase() %></h3>
+        <%- include('partials/nav') %>
+    </header>
+    <main>
+        <div class="category-items">
+                <% if (items.length) { %>
+                <% items.forEach(function(item) { %>
+                    <div>
+                        <a href="/items/<%= item.category_id %>/<%= item.item_id %>">
+                            <img src="<%= item.item_image %>" alt="<%= item.item_name %>">
+                            <div class="item-info">
+                                <h3><%= item.item_name %></h3>
+                                <h4>Price: $<%= item.price %></h4>
+                                <p>In Stock: <%= item.stock %></p>
+                                <p>Rating: <%= item.rating %></p>
+                                <p>Description: <%= item.description %></p>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+                <% } else { %>
+                    <p>No items in this category yet.</p>
+                <% } %>
+        </div>
+        
+    </main>
+    
+</body>
+</html>

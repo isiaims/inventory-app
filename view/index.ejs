@@ -7,10 +7,14 @@
         <%- include('partials/nav') %>
     </header>
     <main>
+        <a href="/items">See all items in stock</a>
         <% if (categories.length) { %>
             <% categories.forEach(function(category) { %>
                 <div data-id="<%= category.id %>">
-                    <h4><%= category.category.toUpperCase() %></h4>
+                    <a href="/category/<%= category.id %>">
+                        <img src="<%= category.category_image %>" alt="<%= category.category %>">
+                        <h4><%= category.category.toUpperCase() %></h4>
+                    </a>
                 </div>
             <% }); %>
         <% } else { %>

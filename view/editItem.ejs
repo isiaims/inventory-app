@@ -1,0 +1,65 @@
+<html>
+<%- include('partials/header', { title }) %>
+<body>
+    <%- include('partials/nav') %>
+    <main>
+        <h3><%= title %></h3>
+        <form id="edit-item-form" action="/items/<%= item.category_id %>/<%= item.item_id %>/edit-item" method="post">
+            <div>
+                <label for="item_name">Item Name: </label>
+                <input type="text" name="item_name" id="item_name" value='<%= item.item_name %>' required >
+                <p><%= errors[0]?.msg %></p>
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input type="text" name="price" id="price" value='<%= item.price %>' required>
+                <p><%= errors[1]?.msg %></p>
+            </div>
+            <div>
+                <label for="rating">Rating: </label>
+                <input type="text" name="rating" id="rating" value='<%= item.rating %>' >
+                <p><%= errors[2]?.msg %></p>
+            </div>
+            <div>
+                <label for="stock">Stock: </label>
+                <input type="text" name="stock" id="stock" value='<%= item.stock %>' required>
+                <p><%= errors[3]?.msg %></p>
+            </div>
+            <div>
+                <label for="category">Category: </label>
+                <select name="categoryId" id="category" required>
+                    <% categories.forEach(function(category) { %>
+                        <option
+                         value="<%= category.id %>"
+                         <%= item.category_id === category.id ? 'selected' : '' %>
+                        ><%= category.category %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="description">Description: </label>
+                <p><%= errors[5]?.msg %></p>
+                <textarea name="description" id="description"><%= item.description %></textarea>
+            </div>
+            <button type="button" class="save-edit">Save Changes</button>
+        </form>
+        <div class="confirm-update" role="dialog" aria-labelledby="confirm-update-message">
+            <h4 id="confirm-update-message">Save these changes?</h4>
+            <label for="update-password">Admin password:</label>
+            <input
+                type="password"
+                id="update-password"
+                name="password"
+                form="edit-item-form"
+                autocomplete="current-password"
+                disabled
+                required
+            >
+            <div>
+                <button type="submit" form="edit-item-form">Confirm</button>
+                <button type="button" class="cancel-update">Cancel</button>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

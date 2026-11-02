@@ -1,0 +1,9 @@
+.confirm-delete,
+.confirm-update {
+  display: none;
+}
+
+.confirm-delete.open,
+.confirm-update.open {
+  display: block;
+}

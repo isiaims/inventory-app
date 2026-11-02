@@ -213,8 +213,8 @@ export const products = [
 ];
 
 export const categories = [
-  "men's clothing",
-  "jewelery",
-  "electronics",
-  "women's clothing",
+  { category: "men's clothing", category_image: "assets/brand.png" },
+  { category: "jewelery", category_image: "assets/jewelry.png" },
+  { category: "electronics", category_image: "assets/electronic-store.png" },
+  { category: "women's clothing", category_image: "assets/fashion.png" },
 ];

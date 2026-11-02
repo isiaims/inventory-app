@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header', { title }) %>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+    <main>
+        <h3><%= title %></h3>
+        <form action="/new-item" method="post">
+            <div>
+                <label for="item_name">Item Name: </label>
+                <input type="text" name="item_name" id="item_name" required>
+                <p><%= errors[0]?.msg %></p>
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input type="text" name="price" id="price" required>
+                <p><%= errors[1]?.msg %></p>
+            </div>
+            <div>
+                <label for="rating">Rating: </label>
+                <input type="text" name="rating" id="rating">
+                <p><%= errors[2]?.msg %></p>
+            </div>
+            <div>
+                <label for="stock">Stock: </label>
+                <input type="text" name="stock" id="stock" required>
+                <p><%= errors[3]?.msg %></p>
+            </div>
+            <div>
+                <label for="category">Category: </label>
+                <select name="categoryId" id="category" required>
+                    <% categories.forEach(function(category) { %>
+                        <option value="<%= category.id %>"><%= category.category %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div>
+                <label for="description">Description: </label>
+                <p><%= errors[5]?.msg %></p>
+                <textarea name="description" id="description"></textarea>
+            </div>
+            <button type="submit">Add Item to Stock</button>
+        </form>
+    
+    </main>
+</body>
+</html>

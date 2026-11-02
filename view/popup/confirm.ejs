@@ -1,0 +1,11 @@
+<form action="/items/<%= item.item_id %>/delete" method="post" class="confirm-delete">
+    <h4 class="message">
+        Enter the admin password to delete.
+        This action is not reversible.
+    </h4>
+    <input type="text" class="password" name="password" id="password" required>
+    <div>
+        <button class='accept' type="submit">Delete</button>
+        <button class="reject" type="button">Cancel</button>
+    </div>
+</form>

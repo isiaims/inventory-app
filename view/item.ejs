@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/header', { title: title.toUpperCase() }) %>
+<body>
+    <header>
+        <%- include('partials/nav') %>
+    </header>
+    <main>
+        <h3><%= title.toUpperCase() %></h3>
+        <div class="product">
+            <div>
+                <img src="<%= item.item_image %>" alt="<%= item.item_name %>">
+                <div class="item-info">
+                    <h3><%= item.item_name %></h3>
+                    <h4>Price: $<%= item.price %></h4>
+                    <p>In Stock: <%= item.stock %></p>
+                    <p>Rating: <%= item.rating %></p>
+                    <p>Description: <%= item.description %></p>
+                </div>
+            </div>
+        </div>
+        
+    </main>
+    
+</body>
+</html>
